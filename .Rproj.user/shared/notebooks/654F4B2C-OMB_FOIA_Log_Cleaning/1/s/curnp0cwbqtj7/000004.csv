@@ -1,0 +1,8 @@
+"0","foia_log_OMB <-"
+"0","  foia_log_OMB %>% "
+"0","  mutate(Is_Noncustodial_Record = case_when(str_detect(string = Is_Noncustodial_Record,"
+"0","                                                       pattern = ""[Nn][Oo]"") ~ ""No"","
+"0","                                            str_detect(string = Is_Noncustodial_Record,"
+"0","                                                       pattern = ""[Yy][Ee][Ss]"") ~ ""Yes""))"
+"0","foia_log_OMB %>% "
+"0","  count(Is_Noncustodial_Record)"

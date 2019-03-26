@@ -1,0 +1,8 @@
+"0","# Find the number of unique values for each column in the dataset"
+"0","(foia_log_OMB_unique_values <-"
+"0","   foia_log_OMB %>%                                         # Use the data frame called foia_log_OMB AND THEN"
+"0","   purrr::map_df(function(x) length(unique(x))) %>%         # find the number of unique values in each field AND THEN"
+"0","   t() %>%                                                  # transpose the created list AND THEN"
+"0","   as.data.frame() %>%                                      # convert it to a data frame AND THEN"
+"0","   rownames_to_column() %>%                                 # convert the row names to a column AND THEN"
+"0","   rename(""Column_Name"" = rowname, ""Unique_Values"" = V1))   # rename each column to something more useful"

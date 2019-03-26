@@ -1,0 +1,7 @@
+"0","foia_log_OMB %>% 
+  count(Current_Status_Overall) %>% 
+  arrange(-n)
+"
+"0","foia_log_OMB %>% "
+"0","  count(Current_Status_Detail) %>% "
+"0","  arrange(-n)"
