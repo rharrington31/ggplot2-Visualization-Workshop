@@ -12,6 +12,8 @@ In Delaware, every government agency is required by law to keep a FOIA log. This
 
 As the FOIA-log-FOIA-requests have been fulfilled, we have the opportunity to analyze each agency's FOIA logs to better understand their data. To begin this analysis, we look at the Office of Management and Budget's FOIA logs.
 
+The data being used for this series of visualizations is not being presented in its raw form. The original data comes from the file `OMB FOIA TRACKING 032719.xlsx`. The data was processed and cleaned in the file `OMB_FOIA_Log_Cleaning.Rmd`.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -177,6 +179,7 @@ foia_log_OMB %>%
 Does the current status of the FOIA request change based upon when it was filed?
 
 How can we use multiple geometries to create more complex graphs?
+How can we improve our theme?
 
 ```{r}
 
@@ -193,7 +196,14 @@ foia_log_OMB %>%
              color = Current_Status_Overall)) +
   geom_line() + 
   geom_point(size = 1) +
-  theme_minimal()
+  labs(x = "Month FOIA Request was Made",
+       y = "Count of FOIA Requests",
+       title = "Number of FOIA Requests by Month",
+       subtitle = "By Current Status") +
+  theme_minimal() +
+  theme(axis.title = element_text(face = "bold"),
+        plot.title = element_text(face = "bold"),
+        plot.subtitle = element_text(face = "italic"))
 
 ```
 
@@ -214,9 +224,18 @@ foia_log_OMB %>%
              group = Division,
              color = Division)) +
   geom_line() +
-  theme_minimal()
+  labs(x = "Month FOIA Request was Made",
+       y = "Count of FOIA Requests",
+       title = "Number of FOIA Requests by Month",
+       subtitle = "By Division") +
+  theme_minimal() +
+  theme(axis.title = element_text(face = "bold"),
+        plot.title = element_text(face = "bold"),
+        plot.subtitle = element_text(face = "italic"))
 
 ```
+
+What might be a better way to graph this?
 
 ```{r}
 
@@ -232,7 +251,14 @@ foia_log_OMB %>%
              y = n)) +
   geom_line() +
   facet_wrap(~Division, nrow = 5) +
-  theme_minimal()
+  labs(x = "Month FOIA Request was Made",
+       y = "Count of FOIA Requests",
+       title = "Number of FOIA Requests by Month",
+       subtitle = "By Division") +
+  theme_minimal() +
+  theme(axis.title = element_text(face = "bold"),
+        plot.title = element_text(face = "bold"),
+        plot.subtitle = element_text(face = "italic"))
 
 ```
 
@@ -256,7 +282,14 @@ ggplotly(
              y = n)) +
   geom_line() +
   facet_wrap(~Division, nrow = 5) +
-  theme_minimal()
+  labs(x = "Month FOIA Request was Made",
+       y = "Count of FOIA Requests",
+       title = "Number of FOIA Requests by Month",
+       subtitle = "By Current Status") +
+  theme_minimal() +
+  theme(axis.title = element_text(face = "bold"),
+        plot.title = element_text(face = "bold"),
+        plot.subtitle = element_text(face = "italic"))
   
 )
 
