@@ -1,0 +1,49 @@
+---
+title: "Visualizing OMB FOIA Data"
+author: "Ryan Harrington"
+output: html_document
+---
+
+# Overview
+
+The Freedom of Information Act (FOIA) allows constituents to gain access to the data that their government creates. Gaining access to this data comes through a process called a "FOIA request". Making a FOIA request does not guarantee that the request will be fulfilled. There are many reasons that a request may be denied - from the data being unavailable to the data falling under executive privilege.
+
+In Delaware, every government agency is required by law to keep a FOIA log. This log is a historical record of all FOIA requests that have been made to that agency. In an effort to better understand what data was commonly being FOIA requested, Open Data Delaware made a FOIA request to as many agencies as possible for their FOIA logs. Most of these FOIA-log-FOIA-requests were made on February 9, 2019 by David Ginzberg.
+
+As the FOIA-log-FOIA-requests have been fulfilled, we have the opportunity to analyze each agency's FOIA logs to better understand their data. To begin this analysis, we look at the Office of Management and Budget's FOIA logs.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries}
+
+# For file management
+# install.packages("here")
+library(here)
+
+# For data manipulation, functional programming, and graphing
+# install.packages("tidyverse")
+library(tidyverse)
+
+# Loads the core tidyverse packages:
+# - ggplot2, for data visualisation.
+# - dplyr, for data manipulation.
+# - tidyr, for data tidying.
+# - readr, for data import.
+# - purrr, for functional programming.
+# - tibble, for tibbles, a modern re-imagining of data frames.
+# - stringr, for strings.
+# - forcats, for factors
+
+```
+
+# Import Data
+
+```{r}
+
+# Read in the `OMB FOIA TRACKING 032719.xlsx` file from the `Data` folder in the
+# project directory and then store it in an object called foia_log_OMB
+foia_log_OMB <- read_csv(here("Data_Transformations", "FOIA_log_OMB_clean.csv"))
+
+```
