@@ -1,5 +1,5 @@
 ---
-title: "Visualizing FOIA Data"
+title: "Cleaning OMB FOIA Data"
 author: "Ryan Harrington"
 output: html_document
 ---
