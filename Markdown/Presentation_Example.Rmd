@@ -1,0 +1,86 @@
+---
+title: "Presentation Sample"
+author: "Ryan Harrington"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Libraries
+
+```{r}
+
+# install.packages(tidyverse)
+library(tidyverse)
+
+```
+
+# Simulate data
+
+```{r}
+
+# The number of days to simulate
+num_days <- 31
+
+# Generating the days (with March 1st 2019 as a start date)
+sample_dates <- seq.Date(from = as.Date("2019-03-01"),
+                         length.out = num_days,
+                         by = "days")
+
+# Randomly generate the number of purchases made on each day
+number_of_purchases <- ceiling(runif(num_days) * 10)
+
+# Expanding each of the days by the number of purchases made on that day
+all_dates <- rep(sample_dates, number_of_purchases)
+
+# Randomly generate the item numbers associated with each purchase
+item_numbers <- ceiling(runif(length(all_dates)) * 4)
+
+# Randomly generate the quantity of each item purchased
+quantities <- ceiling(runif(length(all_dates)) * 4)
+
+# Create a data frame called "clothing_data_frame"
+clothing_data_frame <- 
+  
+  # Set the data frame up with each of the fields we've created
+  data_frame(Date = all_dates,
+             Item = item_numbers,
+             Quantity = quantities) %>% 
+  
+  # Create a new field called Price based upon which item was purchased
+  mutate(Price = case_when(Item == 1 ~ 19.99,
+                           Item == 2 ~ 14.99,
+                           Item == 3 ~ 8.99,
+                           Item == 4 ~ 12.99),
+         
+         # Rename each item based upon the item number
+         Item = case_when(Item == 1 ~ "Pants",
+                          Item == 2 ~ "Shirt",
+                          Item == 3 ~ "Belt",
+                          Item == 4 ~ "Hat"))
+
+```
+
+```{r}
+
+# Get the total quantity by each item purchased
+clothing_item_quantity_data_frame <-
+  clothing_data_frame %>% 
+  group_by(Item) %>% 
+  summarize(Quantity = sum(Quantity))
+
+```
+
+
+```{r}
+
+# Graph the data
+ggplot(data = clothing_item_quantity_data_frame,
+       aes(x = Item,
+           y = Quantity)) +
+  geom_col()
+
+```
+
