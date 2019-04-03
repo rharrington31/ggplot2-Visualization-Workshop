@@ -101,6 +101,15 @@ How can we change the fill color of the bars?
 
 foia_log_OMB %>% 
   ggplot(aes(x = Assigned_to)) +
+  geom_bar()
+
+```
+
+
+```{r}
+
+foia_log_OMB %>% 
+  ggplot(aes(x = Assigned_to)) +
   geom_bar(fill = "red") +
   theme_minimal()
 
