@@ -99,19 +99,25 @@ How can we change the fill color of the bars?
 
 ```{r}
 
-foia_log_OMB %>% 
-  ggplot(aes(x = Assigned_to)) +
+ggplot(data = foia_log_OMB,
+       aes(x = Assigned_to)) +
   geom_bar()
+
+ggsave(filename = here("Visualizations", "example_01_assigned_to_unformatted.png"),
+         width = 8, height = 4.5, dpi = 300)
 
 ```
 
 
 ```{r}
 
-foia_log_OMB %>% 
-  ggplot(aes(x = Assigned_to)) +
+ggplot(data = foia_log_OMB,
+       aes(x = Assigned_to)) +
   geom_bar(fill = "red") +
   theme_minimal()
+
+ggsave(filename = here("Visualizations", "example_01_assigned_to_formatted.png"),
+         width = 8, height = 4.5, dpi = 300)
 
 ```
 
@@ -122,18 +128,37 @@ How can we make the axis text more legible? Currently, many of the Divisions ove
 
 ```{r}
 
-foia_log_OMB %>%
-  ggplot(aes(x = Division)) +
+ggplot(data = foia_log_OMB,
+       aes(x = Division)) +
+  geom_bar(fill = "red") +
+  theme_minimal()
+
+ggsave(filename = here("Visualizations", "example_02_division_unformatted.png"),
+         width = 8, height = 4.5, dpi = 300)
+
+```
+
+
+```{r}
+
+ggplot(data = foia_log_OMB,
+       aes(x = Division)) +
   geom_bar(fill = "red") +
   coord_flip() +
   theme_minimal()
 
-foia_log_OMB %>%
-  ggplot(aes(x = Division)) +
+ggsave(filename = here("Visualizations", "example_02_division_formatted_coordflip.png"),
+         width = 8, height = 4.5, dpi = 300)
+
+ggplot(data = foia_log_OMB,
+       aes(x = Division)) +
   geom_bar(fill = "red") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
+
+ggsave(filename = here("Visualizations", "example_02_division_formatted_angle.png"),
+         width = 8, height = 4.5, dpi = 300)
 
 ```
 
@@ -144,21 +169,27 @@ Can we change the labels of our fields?
 
 ```{r}
 
-foia_log_OMB %>% 
-  ggplot(aes(x = Current_Status_Overall)) +
-  geom_bar() +
+ggplot(data = foia_log_OMB,
+       aes(x = Current_Status_Overall)) +
+  geom_bar(fill = "red") +
   coord_flip() +
   theme_minimal() +
   labs(x = "Current Status Overall",
        y = "Count")
 
-foia_log_OMB %>% 
-  ggplot(aes(x = Current_Status_Detail)) +
-  geom_bar() +
+ggsave(filename = here("Visualizations", "example_03_current_status_overall_formatted.png"),
+         width = 8, height = 4.5, dpi = 300)
+
+ggplot(data = foia_log_OMB,
+       aes(x = Current_Status_Detail)) +
+  geom_bar(fill = "red") +
   coord_flip() +
   theme_minimal() +
   labs(x = "Current Status Detail",
        y = "Count")
+
+ggsave(filename = here("Visualizations", "example_03_current_status_detail_formatted.png"),
+         width = 8, height = 4.5, dpi = 300)
 
 ```
 
@@ -171,17 +202,28 @@ How else can we manipulate the aesthetics of our graph?
 
 ```{r}
 
-foia_log_OMB %>%
-  mutate(Month_Received = as.Date(format(Date_Received, format = "%Y-%m-01"))) %>% 
-  count(Month_Received) %>% 
-  ggplot(aes(x = Month_Received,
-             y = n)) +
+(month_counts <-
+   foia_log_OMB %>%
+   mutate(Month_Received = as.Date(format(Date_Received, format = "%Y-%m-01"))) %>% 
+   count(Month_Received))
+
+```
+
+
+```{r}
+
+ggplot(data = month_counts,
+       aes(x = Month_Received,
+           y = n)) +
   geom_line(color = "red",
             size = 1) +
   theme_minimal() +
   labs(x = "Month FOIA Request was Made",
        y = "Count of FOIA Requests",
        title = "Number of FOIA Requests by Month")
+
+ggsave(filename = here("Visualizations", "example_04_month_received_formatted.png"),
+         width = 8, height = 4.5, dpi = 300)
 
 ```
 
