@@ -234,17 +234,51 @@ How can we improve our theme?
 
 ```{r}
 
-foia_log_OMB %>%
+(month_status_overall_counts <- 
+  foia_log_OMB %>%
   mutate(Month_Received = as.Date(format(Date_Received, format = "%Y-%m-01"))) %>% 
   count(Month_Received, Current_Status_Overall) %>% 
   group_by(Current_Status_Overall) %>% 
   complete(Month_Received = seq.Date(min(Month_Received), 
                                      max(Month_Received), by = "months")) %>% 
-  replace(is.na(.), 0) %>% 
-  ggplot(aes(x = Month_Received,
-             y = n,
-             group = Current_Status_Overall,
-             color = Current_Status_Overall)) +
+   replace(is.na(.), 0))
+
+```
+
+```{r}
+
+ggplot(data = month_status_overall_counts,
+       aes(x = Month_Received,
+           y = n,
+           group = Current_Status_Overall,
+           color = Current_Status_Overall)) +
+  geom_line() + 
+  labs(x = "Month FOIA Request was Made",
+       y = "Count of FOIA Requests",
+       title = "Number of FOIA Requests by Month",
+       subtitle = "By Current Status") +
+  theme_minimal()
+
+ggsave(filename = here("Visualizations", "example_05_month_status_overall_unformatted.png"),
+       width = 8, height = 4.5, dpi = 300)
+
+```
+
+```{r}
+
+month_status_overall_counts %>% 
+  filter(Current_Status_Overall == "Inactive")
+
+```
+
+
+```{r}
+
+ggplot(data = month_status_overall_counts,
+       aes(x = Month_Received,
+           y = n,
+           group = Current_Status_Overall,
+           color = Current_Status_Overall)) +
   geom_line() + 
   geom_point(size = 1) +
   labs(x = "Month FOIA Request was Made",
@@ -256,24 +290,35 @@ foia_log_OMB %>%
         plot.title = element_text(face = "bold"),
         plot.subtitle = element_text(face = "italic"))
 
+ggsave(filename = here("Visualizations", "example_05_month_status_overall_formatted.png"),
+         width = 8, height = 4.5, dpi = 300)
+
 ```
 
 Are particular divisions more likely to receive a FOIA request at a given time of the year?
 
 ```{r}
 
-foia_log_OMB %>%
+month_division_counts <-
+  foia_log_OMB %>%
   mutate(Month_Received = as.Date(format(Date_Received, format = "%Y-%m-01"))) %>% 
   count(Month_Received, Division) %>% 
   group_by(Division) %>% 
   complete(Month_Received = seq.Date(min(Month_Received), 
                                      max(Month_Received), by = "months")) %>% 
   mutate(n = replace_na(n, 0)) %>% 
-  ungroup() %>% 
-  ggplot(aes(x = Month_Received,
-             y = n,
-             group = Division,
-             color = Division)) +
+  ungroup()
+
+```
+
+
+```{r}
+
+ggplot(data = month_division_counts,
+       aes(x = Month_Received,
+           y = n,
+           group = Division,
+           color = Division)) +
   geom_line() +
   labs(x = "Month FOIA Request was Made",
        y = "Count of FOIA Requests",
@@ -284,21 +329,17 @@ foia_log_OMB %>%
         plot.title = element_text(face = "bold"),
         plot.subtitle = element_text(face = "italic"))
 
+ggsave(filename = here("Visualizations", "example_06_month_division_unformatted.png"),
+       width = 8, height = 4.5, dpi = 300)
+
 ```
 
 What might be a better way to graph this?
 
 ```{r}
 
-foia_log_OMB %>%
-  mutate(Month_Received = as.Date(format(Date_Received, format = "%Y-%m-01"))) %>% 
-  count(Month_Received, Division) %>% 
-  group_by(Division) %>% 
-  complete(Month_Received = seq.Date(min(Month_Received), 
-                                     max(Month_Received), by = "months")) %>% 
-  mutate(n = replace_na(n, 0)) %>% 
-  ungroup() %>% 
-  ggplot(aes(x = Month_Received,
+ggplot(data = month_division_counts,
+         aes(x = Month_Received,
              y = n)) +
   geom_line() +
   facet_wrap(~Division, nrow = 5) +
@@ -310,6 +351,9 @@ foia_log_OMB %>%
   theme(axis.title = element_text(face = "bold"),
         plot.title = element_text(face = "bold"),
         plot.subtitle = element_text(face = "italic"))
+
+ggsave(filename = here("Visualizations", "example_06_month_division_unformatted.png"),
+       width = 8, height = 4.5, dpi = 300)
 
 ```
 
