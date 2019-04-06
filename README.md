@@ -10,7 +10,7 @@ The fields that are available to use in the final, cleaned dataset are:
 
 * `Requesting_Party` - who made the FOIA request
 
-* `*Date_Assigned` - the date the the FOIA request was assigned to a person at OMB
+* `Date_Assigned` - the date the the FOIA request was assigned to a person at OMB
 
 * `Assigned_to` - who the FOIA request was assigned to at OMB
 
